@@ -86,7 +86,7 @@ By plotting out the number of principal components against the variance of data,
 
 As a result, the 3-dimensional PCA clustering was plotted by regions according to the three PCs and coloured based on their continents. We could easily see the clusters of data points. For a more rigorous result, we used K-means algorithms to determine the suitable number of clusters. K is plotted against the mean squared error (MSE) by the formula: 
 
-<img src="images/formual1.png" width="200">
+<img src="images/formula1.png" width="250">
 
 where *m<sub>k</sub>* is the centre of the *k*th cluster, *n* is the total number of points, and | ⋅ | is the Euclidean norm. From the plot, we can then observe that the elbow is around *K=3*, implying that 3 is a reasonably good number of clusters.
 
@@ -102,7 +102,7 @@ Finally, to answer whether we can predict music tracks' popularity, we focused o
 
 Therefore, we introduced another regression method, the random forest -- a supervised machine learning algorithm that is an ensemble of decision trees. Firstly, the samples used to generate the decision trees are chosen by the bootstrap method, where we took various random sub-samples from the dataset with replacement. Then, we constructed a decision tree for each sample and got a prediction result. Here the mean squared error (MSE) is calculated by the formula: 
 
-<img src="images/formual2.png" width="200">
+<img src="images/formula2.png" width="200">
 
 where *n* is the size of sample, *y<sub>i</sub>* is the actual value for data point *i* and *ŷ<sub>i</sub>* is the predicted value by the model, is used to decide which branch to choose from each node. Especially, in order to make each tree unique enough to have own features, the decision trees are not pruned in the training. After a large amount of calculations, we received the prediction value from all the decision trees and averaged for the final result. The actual versus prediction line is drawn.
 
@@ -149,7 +149,7 @@ Instead, we decided to use the audio features to predict if a song would reach t
 
 We drew a Receiver Operating Characteristic (ROC) curve to test our model and chose the best threshold or cutoff value. In ROC, the y-axis is the sensitivity, representing the true positive ratio; the x-axis is the value of (1 - specificity), representing the false positive ratio. The $y=x$ diagonal line is the fifty-fifty random classifier. We want the model to have more true positive predictions than false positives, in other words, a curve closer to the top left of the plot. Here the area under the curve (AUC) is an overall summary of the quality of the model. It can be calculated by the [Wilcoxon-Mann-Whitney statistic](https://link.springer.com/chapter/10.1007/978-3-540-74976-9_8): 
 
-<img src="images/formual3.png" width="200">
+<img src="images/formula3.png" width="350">
 
 where 1[*F*] is an indicator function that returns 1 if *F* is true and 0 otherwise, *D<sub>0</sub>* is the negative sample set, and *D<sub>1</sub>* is the positive sample set. We then drew the plot of matrix versus popularity score cutoff value. 
 
