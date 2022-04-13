@@ -36,30 +36,27 @@ We are setting out to answer the following questions:
 # Data
 
 # Data provenance
-The data used for this project were downloaded from Kaggle's "Spotify's Worldwide Daily Song Ranking (Version 3)" as a CSV file. The dataset was crawled by Eduardo 4 years ago from the website Spotify.Charts **(cite)**. The codes provide a copyleft license, GNU General Public License v3.0 **(cite)**, which includes permissions for commercial use, modification, distribution, patent use and private use. 
+The data used for this project were downloaded from Kaggle's "Spotify's Worldwide Daily Song Ranking (Version 3)" as a CSV file. The dataset was crawled by Eduardo 4 years ago from the website [Spotify.Charts](https://www.kaggle.com/datasets/edumucelli/spotifys-worldwide-daily-song-ranking). The codes provide a copyleft license, [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), which includes permissions for commercial use, modification, distribution, patent use and private use. 
 
-For the extension, we used the official Spotify web API to complement the song ranking dataset till the end of 2018 and acquire additional data on audio features. As required on the website for Spotify.Chart developers **(cite)**, we authenticated against their API by “client id” and “secret id” from Spotify Premium account before getting the data. 
+For the extension, we used the official [Spotify web API](https://developer.spotify.com/documentation/web-api/) to complement the song ranking dataset till the end of 2018 and acquire additional data on audio features. As required on the website for Spotify.Chart developers, we authenticated against their API by “client id” and “secret id” from Spotify Premium account before getting the data. 
 
 ## Data description
 The main data from Spotify is a daily record of the top 200 playlists global and in 53 regions across the world. It contains 3441197 rows and 7 columns, including the position on charts (*Position*), name of the song (*Track Name*), artist of the song (*Artist*), the number of streams (*Streams*), the website address of the song (*URL*), the date for the record (*$Date*) and the region code (*Region*).
 
-The audio features is also provided by a csv file, with 27802 rows and 26 columns providing 9 features: *duration(ms)*, *acousticness*, *danceability*, *energy*, *instrumentalness*, *liveness*, *tempo*, *valence* and *loudness* for each song.
+The audio features is also provided by a csv file, with 27802 rows and 26 columns providing 9 features: 
+<!-- *duration(ms)*, *acousticness*, *danceability*, *energy*, *instrumentalness*, *liveness*, *tempo*, *valence* and *loudness* for each song. -->
 
 |Attribute |Description|
 |--- | --- |
-|1 - Acousticness (float) | A confidence measure from 0.0 to 1.0 of whether the track is acoustic.|
-|2 - Danceability (float) | Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.|
-|3 - duration_ms (int) | Duration of the track in ms|
-|4 - energy (float) | Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy.|
-|5 - instrumentalness (float) | Predicts whether a track contains no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. 
-|6 - key (int) | The estimated overall key of the track.|
-|7 - liveness (float) |Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live.| 
-|8 - loudness | The overall loudness of a track in decibels (dB)
-|9 - mode (int) | Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived.|
-|10 - speechiness (float) | Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value.
-|11 - tempo (int) | The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
-|12 - time signature (int) | An estimated overall time signature of a track.| 
-|13 - valence (float) | A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).| 
+|duration_ms (int) | Duration of the track in ms|
+|acousticness (float) | A confidence measure from 0.0 to 1.0 of whether the track is acoustic.|
+|danceability (float) | Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.|
+|energy (float) | Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy.|
+|instrumentalness (float) | Predicts whether a track contains no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. 
+|liveness (float) |Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live.| 
+|tempo (int) | The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.|
+|valence (float) | A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).| 
+|loudness | The overall loudness of a track in decibels (dB). 
 
 ## Data processing
 For the song-ranking dataset, we first dropped the NaN rows, mostly the songs taken down, and the *URL* column since we will not use it in the analysis. Then, we split the *Date* column into *Year*, *Month* and *Weekday* columns, where the *Weekday* is the date of a week calculated by the python package *matplotlib.dates*. An additional column *Continent* is generated according to region codes by the package *geopandas*. We replaced the abbreviations of continents with their full names and distinguished the records with the same track name but different artists by renaming them differently.
@@ -71,11 +68,11 @@ For the extension part, we merged the two datasets and receive the record from t
 # Exploratory Data Analysis
 Our exploration of the data is divided into two parts: the first part analysing the difference in music tastes across the world; the second part focusing on globally top-ranking songs and their patterns. For both parts, we have applied a machine learning technique to look into the problem.
 
-We first visualised the distribution of streams across the world by drawing a pie chart, where the regions with streams in the upper 0.8 quantiles are displayed in the chart while the rest are integrated into the *Other* part. We observed that the United States of America users dominated the market, taking up more than a quarter of the total streams. This disparity may be due to the difference in population and lifestyle. The US has the third-largest population in the world, around 325.14 million in 2017 **(cite)**, and also a wide use of mobile phones and audio devices. The number was followed by the United Kingdom, Brazil, Mexico and Germany, which all provided around 6% to 7% of the total streams. Those countries also have similar advantages. 
+We first visualised the distribution of streams across the world by drawing a pie chart, where the regions with streams in the upper 0.8 quantiles are displayed in the chart while the rest are integrated into the *Other* part. We observed that the United States of America users dominated the market, taking up more than a quarter of the total streams. This disparity may be due to the difference in population and lifestyle. The US has the third-largest population in the world, around 325.14 million in 2017, and also a wide use of mobile phones and audio devices. The number was followed by the United Kingdom, Brazil, Mexico and Germany, which all provided around 6% to 7% of the total streams. Those countries also have similar advantages. 
 
 <img src="images/pie-chart.png" width="600">
 
-Then, we focused on the global trend of Spotify music. Filtered by the global region, the data provides the number of streams of 200 top-ranking songs for each day. We plotted the time against the position of the 10 songs with the highest number of streams. We observed that all the music tracks had at least a period reaching the top 20 positions. However, since July, almost all popular songs have gradually lost their leading positions. Those relatively short lifespans of the top-ranking songs may be due to the fast pace of current life so that people frequently change their song tastes over time. Also, interestingly, there is a significant decrease in positions for all the 10 songs at Christmas time. During this period, top songs include $"All I Want for Christmas Is You"$ and $"Home for Christmas"$ for lots of people played those songs for celebration. After that, their positions rose back and reached local maxima during New Year. 
+Then, we focused on the global trend of Spotify music. Filtered by the global region, the data provides the number of streams of 200 top-ranking songs for each day. We plotted the time against the position of the 10 songs with the highest number of streams. We observed that all the music tracks had at least a period reaching the top 20 positions. However, since July, almost all popular songs have gradually lost their leading positions. Those relatively short lifespans of the top-ranking songs may be due to the fast pace of current life so that people frequently change their song tastes over time. Also, interestingly, there is a significant decrease in positions for all the 10 songs at Christmas time. During this period, top songs include *"All I Want for Christmas Is You"* and *"Home for Christmas"* for lots of people played those songs for celebration. After that, their positions rose back and reached local maxima during New Year. 
 
 <img src="images/Global-top10-f.png" width="900">
 
@@ -88,8 +85,10 @@ By plotting out the number of principal components against the variance of data,
 <img src="images/kmeans.png" width="400">
 
 As a result, the 3-dimensional PCA clustering was plotted by regions according to the three PCs and coloured based on their continents. We could easily see the clusters of data points. For a more rigorous result, we used K-means algorithms to determine the suitable number of clusters. K is plotted against the mean squared error (MSE) by the formula: 
-[//]: # (MSE = \frac{1}{\:n}\sum _{k=1}^K\sum _{i\in C_k}\:\parallel x_i-m_k \parallel ^2)
-where *m_k* is the centre of the *k*th cluster, *n* is the total number of points, and *|$\dot$|* is the Euclidean norm. From the plot, we can then observe that the elbow is around $K=3$, implying that 3 is a reasonably good number of clusters.
+
+<img src="images/formual1.png" width="200">
+
+where *m<sub>k</sub>* is the centre of the *k*th cluster, *n* is the total number of points, and | ⋅ | is the Euclidean norm. From the plot, we can then observe that the elbow is around *K=3*, implying that 3 is a reasonably good number of clusters.
 
 <img src="images/3d-cluster-f.png" width="600">
 
@@ -99,26 +98,26 @@ Finally, to answer whether we can predict music tracks' popularity, we focused o
 
 <img src="images/comparison-regression.png" width="900">
 
-|                                                              | **R square score** |             | **RMSE**     |             | **MAE**      |             |
-|:-------------------------------------------------------------|:-------------------|:------------|:-------------|:------------|:-------------|:------------|
-| **Regression model**                                         | **Training**       | **Testing** | **Training** | **Testing** | **Training** | **Testing** |
-| **Multivariate Linear Regression with Scaling and PCA only** | 0.7165             | 0.7071      | 29.58        | 30.163      | 23.052       | 23.493      |
-| **Multivariate Linear Regression with random forest**        | 0.9931             | 0.9479      | 4.581        | 12.654      | 3.04         | 8.37        |
+<img src="images/table1.png" width="800">
 
 Therefore, we introduced another regression method, the random forest -- a supervised machine learning algorithm that is an ensemble of decision trees. Firstly, the samples used to generate the decision trees are chosen by the bootstrap method, where we took various random sub-samples from the dataset with replacement. Then, we constructed a decision tree for each sample and got a prediction result. Here the mean squared error (MSE) is calculated by the formula: 
-[//]: # (MSE = \frac{1}{n}\sum _{i=1}^n\:\left(y_i-\hat{y_i}\right)^2)
-where *n* is the size of sample, *y_i* is the actual value for data point *i* and *\hat{y_i}* is the predicted value by the model, is used to decide which branch to choose from each node. Especially, in order to make each tree unique enough to have own features, the decision trees are not pruned in the training. After a large amount of calculations, we received the prediction value from all the decision trees and averaged for the final result. The actual versus prediction line is drawn.
+
+<img src="images/formual2.png" width="200">
+
+where *n* is the size of sample, *y<sub>i</sub>* is the actual value for data point *i* and *ŷ<sub>i</sub>* is the predicted value by the model, is used to decide which branch to choose from each node. Especially, in order to make each tree unique enough to have own features, the decision trees are not pruned in the training. After a large amount of calculations, we received the prediction value from all the decision trees and averaged for the final result. The actual versus prediction line is drawn.
 
 For a more precise prediction, we divided the model into three parts: "average rank position", "highest rank position", and "lowest rank position". After tuning and scaling the data by PCA features, we applied the above process of the multi-output and random forest regressor, and immediately received a model with testing scores every close to 1 and RMSE = 12.654. The visualisation of the actual versus prediction data also shows a reasonably good fit.
 
 <img src="images/random-forest-f.png" width="1000">
+
+[Back to Top](#Table-of-Contents)
 
 ## Discussion and conclusions
 
 ### Summary of findings
 We analysed various interesting observations with respect to two perspectives: the globally top-ranking music and the music popularity in different regions.
 
-Due to the large population and widespread use of mobile devices, the United States users provide the largest number of streams, over $25\%$, followed by the United Kingdom, Germany, Mexico and Brazil.
+Due to the large population and widespread use of mobile devices, the United States users provide the largest number of streams, over 25%, followed by the United Kingdom, Germany, Mexico and Brazil.
 
 Focusing on global rankings, we observed that the most-listened songs first raised almost instantly to the top positions, stayed for a certain period, and then gradually fell to lower positions. We concluded that the lifespan of a top-10 song is usually around six months. Also, the streams of almost all songs reached a trough during Christmas and regained their popularity before New Year.
 
@@ -130,7 +129,7 @@ Finally, we focused on the prediction model of the positions of songs. We discov
 
 Besides the detailed discovery of the dataset, our group spent a significant amount of effort studying and applying new machine learning techniques. We discovered that the standard linear regression does not provide a perfect prediction for the ranks, so we introduced the random forest method that used a more complex algorithm to do the regression. This section's codes took a long time to run, but we finally received a good prediction model. 
 
-To analyse the number of streams geographically, we drew the distribution across the world by colour depths in Figure~\ref{fds-project-option-2:fig:distribution}. We observed large grey areas in Asia and Africa where we did not get any data, indicating that the Spotify chart contains only a small number of countries and regions that their service covered. Especially, data from the limited number of regions in Asia made it insufficient to conclude general users' behaviour in the continent. 
+To analyse the number of streams geographically, we drew the distribution across the world by colour depths and observed large grey areas in Asia and Africa where we did not get any data, indicating that the Spotify chart contains only a small number of countries and regions that their service covered. Especially, data from the limited number of regions in Asia made it insufficient to conclude general users' behaviour in the continent. 
 
 <img src="images/distribution.png" width="900">
 
@@ -148,12 +147,11 @@ Instead, we decided to use the audio features to predict if a song would reach t
 
 <img src="images/cutoff.png" width="600">
 
-We drew a Receiver Operating Characteristic (ROC) curve to test our model and chose the best threshold or cutoff value. In ROC, the y-axis is the sensitivity, representing the true positive ratio; the x-axis is the value of (1 - specificity), representing the false positive ratio. The $y=x$ diagonal line is the fifty-fifty random classifier. We want the model to have more true positive predictions than false positives, in other words, a curve closer to the top left of the plot. Here the area under the curve (AUC) is an overall summary of the quality of the model. It can be calculated by the Wilcoxon-Mann-Whitney statistic \cite{auc}: 
-\begin{equation}
-  \label{fds-project-template:eq:2}
-  AUC\left(f\right)=\frac{\sum _{t_0\in D^0\:}\:\sum _{t_1\in D^1}\:\textbf{1}\left[f\left(t_0\right)<f\left(t_1\right)\right]}{\left|D^0\right|\cdot \left|D^1\right|}
-\end{equation}
-where $\textbf{1}[F]$ is an indicator function that returns 1 if F is true and 0 otherwise, $D^0$ is the negative sample set, and $D^1$ is the positive sample set. We then drew the plot of matrix versus popularity score cutoff value. 
+We drew a Receiver Operating Characteristic (ROC) curve to test our model and chose the best threshold or cutoff value. In ROC, the y-axis is the sensitivity, representing the true positive ratio; the x-axis is the value of (1 - specificity), representing the false positive ratio. The $y=x$ diagonal line is the fifty-fifty random classifier. We want the model to have more true positive predictions than false positives, in other words, a curve closer to the top left of the plot. Here the area under the curve (AUC) is an overall summary of the quality of the model. It can be calculated by the [Wilcoxon-Mann-Whitney statistic](https://link.springer.com/chapter/10.1007/978-3-540-74976-9_8): 
+
+<img src="images/formual3.png" width="200">
+
+where 1[*F*] is an indicator function that returns 1 if *F* is true and 0 otherwise, *D<sub>0</sub>* is the negative sample set, and *D<sub>1</sub>* is the positive sample set. We then drew the plot of matrix versus popularity score cutoff value. 
 
 From the plot, we arrived at an optimal cutoff at 80. 
 
